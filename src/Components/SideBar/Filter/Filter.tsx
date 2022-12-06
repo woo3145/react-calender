@@ -7,7 +7,7 @@ const Filter = () => {
           type="checkbox"
           className="w-6 h-6 text-gray-600 border-2 rounded-md focus:ring-0"
         />
-        <span className="ml-4 text-lg">View All</span>
+        <span className="ml-4 text-lg text-neutral-600">View All</span>
       </label>
     </div>
   );

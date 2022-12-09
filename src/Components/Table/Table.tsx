@@ -2,55 +2,61 @@ import TableHead from './TableHead';
 import TableItem from './TableItem';
 
 const Table = () => {
+  const currentDate = new Date();
+  const currentDate_year = currentDate.getFullYear();
+  const currentDate_month = currentDate.getMonth() + 1;
+  const currentDate_date = currentDate.getDate();
+
+  const lastDateOfLastMonth_date = new Date(
+    currentDate_year,
+    currentDate_month - 1,
+    0
+  ).getDate();
+
+  const firstDateOfCurrentMonth = new Date(
+    currentDate_year,
+    currentDate_month - 1,
+    1
+  );
+  const firstDateOfCurrentMonth_day = firstDateOfCurrentMonth.getDay();
+
+  const lastDateOfCurrentMonth = new Date(
+    currentDate_year,
+    currentDate_month,
+    0
+  );
+  const lastDateOfCurrentMonth_date = lastDateOfCurrentMonth.getDate();
+
+  // 현재달의 요일 시작일 + 현재달의 마지막 일 / 7  === week 수
+  const lineCount = Math.ceil(
+    (firstDateOfCurrentMonth_day + lastDateOfCurrentMonth_date) / 7
+  );
+  const lineCountIter = Array.from({ length: lineCount }, (v, i) => i);
+  const weekIter = Array.from({ length: 7 }, (v, i) => i + 1);
+
   return (
     <table className="w-full table-fixed border-collapse border">
       <TableHead />
       <tbody>
-        <tr>
-          <TableItem text="1" />
-          <TableItem text="2" />
-          <TableItem text="3" />
-          <TableItem text="4" />
-          <TableItem text="5" />
-          <TableItem text="6" />
-          <TableItem text="7" />
-        </tr>
-        <tr>
-          <TableItem text="8" />
-          <TableItem text="9" />
-          <TableItem text="10" />
-          <TableItem text="11" />
-          <TableItem text="12" />
-          <TableItem text="13" />
-          <TableItem text="14" />
-        </tr>
-        <tr>
-          <TableItem text="15" />
-          <TableItem text="16" />
-          <TableItem text="17" />
-          <TableItem text="18" />
-          <TableItem text="19" />
-          <TableItem text="20" />
-          <TableItem text="21" />
-        </tr>
-        <tr>
-          <TableItem text="22" />
-          <TableItem text="23" />
-          <TableItem text="24" />
-          <TableItem text="25" />
-          <TableItem text="26" />
-          <TableItem text="27" />
-          <TableItem text="28" />
-        </tr>
-        <tr>
-          <TableItem text="29" />
-          <TableItem text="30" />
-          <TableItem text="31" />
-          <TableItem text="1" />
-          <TableItem text="2" />
-          <TableItem text="3" />
-          <TableItem text="4" />
-        </tr>
+        {lineCountIter.map((week) => {
+          return (
+            <tr key={week}>
+              <>
+                {weekIter.map((d, idx) => {
+                  const date = week * 7 + d - firstDateOfCurrentMonth_day;
+                  return (
+                    <TableItem
+                      key={week * 7 + idx}
+                      lastDateOfLastMonth={lastDateOfLastMonth_date}
+                      lastDateOfCurrentMonth={lastDateOfCurrentMonth_date}
+                      date={date}
+                    />
+                  );
+                })}
+              </>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

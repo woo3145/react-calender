@@ -5,6 +5,7 @@ import TableItem from './TableItem';
 
 const Table = () => {
   const {
+    referenceDate,
     lastDateOfLastMonth,
     firstDateOfReferenceDate,
     lastDateOfReferenceDate,
@@ -36,6 +37,7 @@ const Table = () => {
                       key={week * 7 + idx}
                       lastDateOfLastMonth={lastDateOfLastMonth_date}
                       lastDateOfReferenceMonth={lastDateOfReferenceMonth_date}
+                      referenceDate={referenceDate}
                       date={date}
                     />
                   );

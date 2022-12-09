@@ -1,6 +1,6 @@
 import { createContext, Dispatch, ReactNode, useMemo, useState } from 'react';
 
-interface ReferenceDate {
+export interface ReferenceDate {
   month: number;
   year: number;
 }

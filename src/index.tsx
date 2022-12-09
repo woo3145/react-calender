@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { DateProvider } from './Context/dateContext';
+import { EventsProvider } from './Context/eventsContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -11,7 +12,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <DateProvider>
-      <App />
+      <EventsProvider>
+        <App />
+      </EventsProvider>
     </DateProvider>
   </React.StrictMode>
 );

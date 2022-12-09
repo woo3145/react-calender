@@ -1,17 +1,17 @@
 interface Props {
   date: number;
   lastDateOfLastMonth: number;
-  lastDateOfCurrentMonth: number;
+  lastDateOfReferenceMonth: number;
 }
 
 const TableItem = ({
   date,
   lastDateOfLastMonth,
-  lastDateOfCurrentMonth,
+  lastDateOfReferenceMonth,
 }: Props) => {
-  const valid = 0 < date && date <= lastDateOfCurrentMonth;
+  const valid = 0 < date && date <= lastDateOfReferenceMonth;
   const lastMonth = date <= 0;
-  const nextMonth = lastDateOfCurrentMonth < date;
+  const nextMonth = lastDateOfReferenceMonth < date;
   return (
     <td className="border pr-4 py-2">
       <div className="h-24">
@@ -21,7 +21,7 @@ const TableItem = ({
         >
           {valid && date}
           {lastMonth && date + lastDateOfLastMonth}
-          {nextMonth && date - lastDateOfCurrentMonth}
+          {nextMonth && date - lastDateOfReferenceMonth}
         </p>
       </div>
     </td>

@@ -1,35 +1,22 @@
+import { useContext } from 'react';
+import { DateContextState } from '../../Context/dateContext';
 import TableHead from './TableHead';
 import TableItem from './TableItem';
 
 const Table = () => {
-  const currentDate = new Date();
-  const currentDate_year = currentDate.getFullYear();
-  const currentDate_month = currentDate.getMonth() + 1;
-  const currentDate_date = currentDate.getDate();
+  const {
+    lastDateOfLastMonth,
+    firstDateOfReferenceDate,
+    lastDateOfReferenceDate,
+  } = useContext(DateContextState);
 
-  const lastDateOfLastMonth_date = new Date(
-    currentDate_year,
-    currentDate_month - 1,
-    0
-  ).getDate();
+  const firstDateOfReferenceDate_day = firstDateOfReferenceDate.getDay();
+  const lastDateOfReferenceMonth_date = lastDateOfReferenceDate.getDate();
+  const lastDateOfLastMonth_date = lastDateOfLastMonth.getDate();
 
-  const firstDateOfCurrentMonth = new Date(
-    currentDate_year,
-    currentDate_month - 1,
-    1
-  );
-  const firstDateOfCurrentMonth_day = firstDateOfCurrentMonth.getDay();
-
-  const lastDateOfCurrentMonth = new Date(
-    currentDate_year,
-    currentDate_month,
-    0
-  );
-  const lastDateOfCurrentMonth_date = lastDateOfCurrentMonth.getDate();
-
-  // 현재달의 요일 시작일 + 현재달의 마지막 일 / 7  === week 수
+  // (현재달의 요일 시작일 + 현재달의 마지막 일) / 7  === week 수
   const lineCount = Math.ceil(
-    (firstDateOfCurrentMonth_day + lastDateOfCurrentMonth_date) / 7
+    (firstDateOfReferenceDate_day + lastDateOfLastMonth_date) / 7
   );
   const lineCountIter = Array.from({ length: lineCount }, (v, i) => i);
   const weekIter = Array.from({ length: 7 }, (v, i) => i + 1);
@@ -43,12 +30,12 @@ const Table = () => {
             <tr key={week}>
               <>
                 {weekIter.map((d, idx) => {
-                  const date = week * 7 + d - firstDateOfCurrentMonth_day;
+                  const date = week * 7 + d - firstDateOfReferenceDate_day;
                   return (
                     <TableItem
                       key={week * 7 + idx}
                       lastDateOfLastMonth={lastDateOfLastMonth_date}
-                      lastDateOfCurrentMonth={lastDateOfCurrentMonth_date}
+                      lastDateOfReferenceMonth={lastDateOfReferenceMonth_date}
                       date={date}
                     />
                   );

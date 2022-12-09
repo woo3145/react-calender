@@ -39,20 +39,20 @@ export const EventsProvider = ({ children }: { children: ReactNode }) => {
     {
       title: '일정 테스트22',
       label: 'Personal',
-      startDate: new Date(2022, 11, 13),
-      endDate: new Date(2022, 11, 13),
+      startDate: new Date(2022, 0, 0),
+      endDate: new Date(2022, 0, 0),
     },
     {
       title: '일정 테스트33',
       label: 'Personal',
-      startDate: new Date(2022, 10, 30),
-      endDate: new Date(2022, 10, 30),
+      startDate: new Date(2021, 11, 30),
+      endDate: new Date(2021, 11, 30),
     },
     {
       title: '일정 테스트333',
       label: 'Personal',
-      startDate: new Date(2022, 10, 30),
-      endDate: new Date(2022, 10, 30),
+      startDate: new Date(2021, 11, 30),
+      endDate: new Date(2021, 11, 30),
     },
   ]);
 

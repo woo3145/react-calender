@@ -32,10 +32,10 @@ const Table = () => {
               <>
                 {weekIter.map((d, idx) => {
                   const date = week * 7 + d - firstDateOfReferenceDate_day;
+
                   return (
                     <TableItem
                       key={week * 7 + idx}
-                      lastDateOfLastMonth={lastDateOfLastMonth_date}
                       lastDateOfReferenceMonth={lastDateOfReferenceMonth_date}
                       referenceDate={referenceDate}
                       date={date}

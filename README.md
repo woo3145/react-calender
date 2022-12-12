@@ -1,46 +1,27 @@
-# Getting Started with Create React App
+## Calender
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### 해야할일
 
-## Available Scripts
+###### 일정표시
 
-In the project directory, you can run:
+- [x] 하루
+- [x] 여러날
+- [ ] 3개 이상부터 +more 기능
+- [ ] 스티커가 dom의 크기변화를 감지하여 스티커의 크기를 조절해야함
 
-### `npm start`
+현재 : EventsContext의 mockData -> 각 tableItem에서 모든 일정들에서 자신의 칸에 포함되는 이벤트를 필터하여 표시하는중
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- 최대 6\*7개의 칸이 모든 일정을 순회하여 찾기 때문에 성능저하 가능성
+- [ ] table생성 컴포넌트에서 1차로 1달 반분(-7일, 이번달, +7일)의 이벤트만 미리 필터하여 반복횟수 줄이기
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+###### DB
 
-### `npm test`
+- [ ] local storage를 db처럼 사용 할 모듈
+- [ ] 일정 추가
+- [ ] 일정 삭제
+- [ ] 일정 수정
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+###### 그외
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- [ ] 일정 태그 객체화 (color, name 등등)
+- [ ] 태그 filter

@@ -25,23 +25,35 @@ const TableItem = ({
 
   const { filteredEvents } = useEvents();
   const [viewedEvents, setViewedEvents] = useState<IEvent[]>([]);
-
   // 이벤트 가져오기
   useEffect(() => {
     setViewedEvents(
-      filteredEvents.filter((e) => {
-        if (e.startDate.getFullYear() !== containerDate_year) {
-          return false;
-        }
-        if (e.startDate.getMonth() !== containerDate_month) {
-          return false;
-        }
-        if (e.startDate.getDate() !== containerDate_date) {
-          return false;
-        }
+      filteredEvents
+        .filter((e) => {
+          if (
+            containerDate_year < e.startDate.getFullYear() ||
+            e.endDate.getFullYear() < containerDate_year
+          ) {
+            return false;
+          }
+          if (
+            containerDate_month < e.startDate.getMonth() ||
+            e.endDate.getMonth() < containerDate_month
+          ) {
+            return false;
+          }
+          if (
+            containerDate_date < e.startDate.getDate() ||
+            e.endDate.getDate() < containerDate_date
+          ) {
+            return false;
+          }
 
-        return true;
-      })
+          return true;
+        })
+        .sort((a, b) => {
+          return b.term - a.term;
+        })
     );
   }, [
     filteredEvents,
@@ -59,7 +71,10 @@ const TableItem = ({
         >
           {containerDate.getDate()}
         </div>
-        <TableEventItem viewedEvents={viewedEvents} />
+        <TableEventItem
+          viewedEvents={viewedEvents}
+          containerDate={containerDate}
+        />
       </div>
     </td>
   );

@@ -1,26 +1,26 @@
-import { useContext } from 'react';
-import { EventsContextDispatch } from '../../Context/eventsContext';
-import { v4 as uuidv4 } from 'uuid';
+import { useState } from 'react';
+import AddModal from '../Modals/AddModal';
 
 const AddEventButton = () => {
-  const { addEvent } = useContext(EventsContextDispatch);
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
   return (
-    <div
-      onClick={() => {
-        addEvent({
-          id: uuidv4(),
-          title: '테스트',
-          startDate: new Date(2022, 11, 1),
-          endDate: new Date(2022, 11, 2),
-          term: 1,
-          label: '일정',
-        });
-      }}
-      className="flex justify-center items-center py-2 bg-purple-600 text-white rounded-md
+    <>
+      <div
+        onClick={openModal}
+        className="flex justify-center items-center py-2 bg-purple-600 text-white rounded-md
 cursor-pointer hover:bg-purple-700 duration-200"
-    >
-      일정 추가
-    </div>
+      >
+        일정 추가
+      </div>
+      <AddModal isOpen={modalIsOpen} closeModal={closeModal} />
+    </>
   );
 };
 

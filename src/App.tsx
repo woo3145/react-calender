@@ -1,7 +1,10 @@
 import React from 'react';
+import ReactModal from 'react-modal';
 import MonthController from './Components/MonthController/MonthController';
 import SideBar from './Components/SideBar/SideBar';
 import Table from './Components/Table/Table';
+
+ReactModal.setAppElement('#root');
 
 function App() {
   return (

@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { EventsContextDispatch, IEvent } from '../../Context/eventsContext';
+import { getDateTerm, isSameDay } from '../../utils/dateUtils';
 
 interface Props {
   viewedEvents: IEvent[];
@@ -17,20 +18,18 @@ const TableEventItem = ({ viewedEvents, containerDate }: Props) => {
   }, []);
 
   const maxCount = 7 - containerDate.getDay(); // 현재 칸에서 옆으로 최대로 늘릴 수 있는 칸
-
   return (
     <div className="absolute left-0 right-0" ref={ref}>
       {viewedEvents.map((event, idx) => {
         // 현재칸을 기준으로 일정이 끝나는 날까지 남은 간격 계산
-        const relativeTerm =
-          (event.endDate.getTime() - containerDate.getTime()) / 86400000;
+        const relativeTerm = getDateTerm(containerDate, event.endDate);
         // 현재칸부터 이어질 일정의 길이
         const term = maxCount < relativeTerm ? maxCount : relativeTerm + 1;
 
         // 캘린더의 각칸을 term과 곱하여 일정스티커의 실제 길이를 구해줌 +(border에서 손실이 생기기 때문에 보강)
         const w = width * term + (event.term === 0 ? 0 : term * 2);
 
-        const startDay = event.startDate.getTime() === containerDate.getTime();
+        const startDay = isSameDay(event.startDate, containerDate); // 이벤트의 시작일과 해당 컨테이너의 값이 일치하는지 확인
         // 일정 시작일이 아닌데 일요일 칸일경우 (새 스티커를 만들어서 붙여줘야됨)
         if (!startDay && containerDate.getDay() === 0) {
           return (
@@ -49,7 +48,6 @@ const TableEventItem = ({ viewedEvents, containerDate }: Props) => {
         if (!startDay) {
           return <div key={idx} className={`w-full h-6`}></div>;
         }
-        //
         return (
           <div
             onClick={() => removeEvent(event.id)} // 임시

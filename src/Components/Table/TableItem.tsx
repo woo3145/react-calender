@@ -18,7 +18,7 @@ const TableItem = ({
   const valid = 0 < date && date <= lastDateOfReferenceMonth;
 
   const { year, month } = referenceDate;
-  const containerDate = new Date(year, month, date);
+  const containerDate = new Date(year, month, date, 9);
   const containerDate_year = containerDate.getFullYear();
   const containerDate_month = containerDate.getMonth();
   const containerDate_date = containerDate.getDate();

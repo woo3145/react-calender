@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { IEvent } from '../../Context/eventsContext';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { EventsContextDispatch, IEvent } from '../../Context/eventsContext';
 
 interface Props {
   viewedEvents: IEvent[];
@@ -7,6 +7,8 @@ interface Props {
 }
 
 const TableEventItem = ({ viewedEvents, containerDate }: Props) => {
+  const { removeEvent } = useContext(EventsContextDispatch);
+
   const ref = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   useEffect(() => {
@@ -50,6 +52,7 @@ const TableEventItem = ({ viewedEvents, containerDate }: Props) => {
         //
         return (
           <div
+            onClick={() => removeEvent(event.id)} // 임시
             key={idx}
             style={{
               width: w,

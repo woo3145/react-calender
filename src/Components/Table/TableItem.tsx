@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { ReferenceDate } from '../../Context/dateContext';
-import { IEvent } from '../../Context/eventsContext';
-import { useEvents } from '../../hooks/useEvents';
-import TableEventItem from './TableEventItem';
+import { ISchedule } from '../../Context/scheduleContext';
+import { useSchedule } from '../../hooks/useSchedule';
+import ScheduleLabelList from './ScheduleLabelList';
 
 interface Props {
   referenceDate: ReferenceDate;
@@ -23,12 +23,12 @@ const TableItem = ({
   const containerDate_month = containerDate.getMonth();
   const containerDate_date = containerDate.getDate();
 
-  const { filteredEvents } = useEvents();
-  const [viewedEvents, setViewedEvents] = useState<IEvent[]>([]);
+  const { filteredSchedules } = useSchedule();
+  const [viewedSchedules, setViewedSchedules] = useState<ISchedule[]>([]);
   // 이벤트 가져오기
   useEffect(() => {
-    setViewedEvents(
-      filteredEvents
+    setViewedSchedules(
+      filteredSchedules
         .filter((e) => {
           if (
             containerDate_year < e.startDate.getFullYear() ||
@@ -56,7 +56,7 @@ const TableItem = ({
         })
     );
   }, [
-    filteredEvents,
+    filteredSchedules,
     containerDate_year,
     containerDate_month,
     containerDate_date,
@@ -71,8 +71,8 @@ const TableItem = ({
         >
           {containerDate.getDate()}
         </div>
-        <TableEventItem
-          viewedEvents={viewedEvents}
+        <ScheduleLabelList
+          viewedSchedules={viewedSchedules}
           containerDate={containerDate}
         />
       </div>

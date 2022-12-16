@@ -2,9 +2,9 @@ import { ChangeEvent, useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import ReactModal from 'react-modal';
 import { DateContextState } from '../../Context/dateContext';
-import { EventsContextDispatch } from '../../Context/eventsContext';
 import { v4 } from 'uuid';
 import { getDateTerm } from '../../utils/dateUtils';
+import { ScheduleContextDispatch } from '../../Context/scheduleContext';
 
 interface Props {
   isOpen: boolean;
@@ -34,7 +34,7 @@ type FormData = {
 };
 
 const AddModal = ({ isOpen, closeModal }: Props) => {
-  const { addEvent } = useContext(EventsContextDispatch);
+  const { addSchedule } = useContext(ScheduleContextDispatch);
   const { currentDate } = useContext(DateContextState);
   const {
     register,
@@ -60,7 +60,7 @@ const AddModal = ({ isOpen, closeModal }: Props) => {
     if (endDate.getTime() < startDate.getTime()) {
       return;
     }
-    addEvent({
+    addSchedule({
       id: v4(),
       label: data.calenderType,
       title: data.title,

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ISchedule } from '../../Context/scheduleContext';
 import { getDateTerm, isSameDay } from '../../utils/dateUtils';
-import ScheduleLabel from './ScheduleLable';
+import ScheduleLabel from './ScheduleLabel';
 
 interface Props {
   viewedSchedules: ISchedule[];

@@ -29,11 +29,13 @@ export const ScheduleContextState = createContext<ContextState>({
 interface ContextDispatch {
   setSchedules: Dispatch<React.SetStateAction<ISchedule[]>> | null;
   addSchedule: (schedule: ISchedule) => void;
+  updateSchedule: (schedule: ISchedule) => void;
   removeSchedule: (scheduleId: string) => void;
 }
 export const ScheduleContextDispatch = createContext<ContextDispatch>({
   setSchedules: null,
   addSchedule: (schedule: ISchedule) => {},
+  updateSchedule: (schedule: ISchedule) => {},
   removeSchedule: (scheduleId: string) => {},
 });
 
@@ -64,8 +66,23 @@ export const ScheduleProvider = ({ children }: { children: ReactNode }) => {
       const filteredEvents = schedules.filter(
         (schedule) => schedule.id !== scheduleId
       );
+      console.log(filteredEvents, '삭제');
       setSchedules(filteredEvents);
       saveSchedules(filteredEvents);
+    },
+    [schedules]
+  );
+
+  const updateSchedule = useCallback(
+    (schedule: ISchedule) => {
+      const updatedSchedule = schedules.map((prev) => {
+        if (prev.id === schedule.id) {
+          return schedule;
+        }
+        return prev;
+      });
+      setSchedules(updatedSchedule);
+      saveSchedules(updatedSchedule);
     },
     [schedules]
   );
@@ -75,8 +92,8 @@ export const ScheduleProvider = ({ children }: { children: ReactNode }) => {
   }, [schedules]);
 
   const scheduleContextDispatchValue = useMemo(() => {
-    return { setSchedules, addSchedule, removeSchedule };
-  }, [addSchedule, removeSchedule]);
+    return { setSchedules, addSchedule, updateSchedule, removeSchedule };
+  }, [addSchedule, updateSchedule, removeSchedule]);
 
   return (
     <ScheduleContextState.Provider value={scheduleContextStateValue}>

@@ -1,14 +1,16 @@
 import { ChangeEvent, useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import ReactModal from 'react-modal';
-import { DateContextState } from '../../Context/dateContext';
-import { v4 } from 'uuid';
 import { getDateTerm } from '../../utils/dateUtils';
-import { ScheduleContextDispatch } from '../../Context/scheduleContext';
+import {
+  ISchedule,
+  ScheduleContextDispatch,
+} from '../../Context/scheduleContext';
 
 interface Props {
   isOpen: boolean;
   closeModal: () => void;
+  schedule: ISchedule;
 }
 
 const customStyles = {
@@ -33,24 +35,37 @@ type FormData = {
   endDate: string;
 };
 
-const AddModal = ({ isOpen, closeModal }: Props) => {
-  const { addSchedule } = useContext(ScheduleContextDispatch);
-  const { currentDate } = useContext(DateContextState);
+const UpdateScheduleModal = ({ isOpen, closeModal, schedule }: Props) => {
+  const { updateSchedule, removeSchedule } = useContext(
+    ScheduleContextDispatch
+  );
   const {
     register,
     handleSubmit,
     setValue,
     watch,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<FormData>({
+    defaultValues: {
+      title: schedule.title,
+      calenderType: schedule.label,
+    },
+  });
 
   useEffect(() => {
-    const curDate = `${currentDate.getFullYear()}-${
-      currentDate.getMonth() + 1
-    }-${currentDate.getDate()}`;
-    setValue('startDate', curDate);
-    setValue('endDate', curDate);
-    //
+    const startDate = `${schedule.startDate.getFullYear()}-${
+      schedule.startDate.getMonth() + 1
+    }-${
+      schedule.startDate.getDate() < 10 ? '0' : ''
+    }${schedule.startDate.getDate()}`;
+    const endDate = `${schedule.endDate.getFullYear()}-${
+      schedule.endDate.getMonth() + 1
+    }-${schedule.endDate.getDate()}`;
+
+    setValue('startDate', startDate);
+    setValue('endDate', endDate);
+
+    // eslint-disable-next-line
   }, []);
 
   const onSubmit = handleSubmit((data) => {
@@ -60,8 +75,8 @@ const AddModal = ({ isOpen, closeModal }: Props) => {
     if (endDate.getTime() < startDate.getTime()) {
       return;
     }
-    addSchedule({
-      id: v4(),
+    updateSchedule({
+      id: schedule.id,
       label: data.calenderType,
       title: data.title,
       startDate,
@@ -94,6 +109,12 @@ const AddModal = ({ isOpen, closeModal }: Props) => {
     setValue('endDate', e.target.value);
   };
 
+  const onDelete = () => {
+    if (window.confirm('정말 삭제하시겠습니까?')) {
+      removeSchedule(schedule.id);
+    }
+  };
+
   return (
     <ReactModal
       isOpen={isOpen}
@@ -101,7 +122,17 @@ const AddModal = ({ isOpen, closeModal }: Props) => {
       style={customStyles}
     >
       <div className="w-screen max-w-screen-sm">
-        <h2 className="text-xl font-semibold">일정 추가</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold">일정 업데이트</h2>
+          <div className="flex">
+            <div
+              onClick={onDelete}
+              className="flex items-center py-2 px-4 rounded-md text-red-500 hover:bg-gray-200 cursor-pointer duration-200"
+            >
+              <p>삭제</p>
+            </div>
+          </div>
+        </div>
         <form className="mt-4" onSubmit={onSubmit}>
           <label className="block text-md font-medium text-slate-700">
             제목
@@ -150,7 +181,7 @@ const AddModal = ({ isOpen, closeModal }: Props) => {
               className="px-8 py-2 bg-purple-600 text-white rounded-md 
           cursor-pointer hover:bg-purple-700 duration-200 mr-4"
             >
-              추가
+              수정
             </button>
             <button
               onClick={closeModal}
@@ -166,4 +197,4 @@ const AddModal = ({ isOpen, closeModal }: Props) => {
   );
 };
 
-export default AddModal;
+export default UpdateScheduleModal;

@@ -6,6 +6,7 @@ import {
   ISchedule,
   ScheduleContextDispatch,
 } from '../../Context/scheduleContext';
+import { LabelContextState } from '../../Context/labelContext';
 
 interface Props {
   isOpen: boolean;
@@ -51,6 +52,7 @@ const UpdateScheduleModal = ({ isOpen, closeModal, schedule }: Props) => {
       calenderType: schedule.label,
     },
   });
+  const { labels } = useContext(LabelContextState);
 
   useEffect(() => {
     const startDate = `${schedule.startDate.getFullYear()}-${
@@ -60,7 +62,9 @@ const UpdateScheduleModal = ({ isOpen, closeModal, schedule }: Props) => {
     }${schedule.startDate.getDate()}`;
     const endDate = `${schedule.endDate.getFullYear()}-${
       schedule.endDate.getMonth() + 1
-    }-${schedule.endDate.getDate()}`;
+    }-${
+      schedule.endDate.getDate() < 10 ? '0' : ''
+    }${schedule.endDate.getDate()}`;
 
     setValue('startDate', startDate);
     setValue('endDate', endDate);
@@ -153,7 +157,9 @@ const UpdateScheduleModal = ({ isOpen, closeModal, schedule }: Props) => {
             {...register('calenderType')}
             className="mt-2 px-3 py-2 text-lg w-full rounded-md border border-slate-400"
           >
-            <option value="normal">일반</option>
+            {labels.map((label) => {
+              return <option value={label.name}>{label.name}</option>;
+            })}
           </select>
 
           <label className="mt-2 block text-md font-medium text-slate-700">

@@ -1,3 +1,4 @@
+import { ILabel } from '../Context/labelContext';
 import { ISchedule } from '../Context/scheduleContext';
 
 export const getSchedules = () => {
@@ -8,4 +9,14 @@ export const getSchedules = () => {
 
 export const saveSchedules = (schedules: ISchedule[]) => {
   localStorage.setItem('schedules', JSON.stringify(schedules));
+};
+
+export const getLabels = () => {
+  const labels = localStorage.getItem('labels');
+  if (!labels) return [];
+  return JSON.parse(labels) as ILabel[];
+};
+
+export const saveLabels = (labels: ILabel[]) => {
+  localStorage.setItem('labels', JSON.stringify(labels));
 };

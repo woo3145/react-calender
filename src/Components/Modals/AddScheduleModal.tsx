@@ -5,6 +5,7 @@ import { DateContextState } from '../../Context/dateContext';
 import { v4 } from 'uuid';
 import { getDateTerm } from '../../utils/dateUtils';
 import { ScheduleContextDispatch } from '../../Context/scheduleContext';
+import { LabelContextState } from '../../Context/labelContext';
 
 interface Props {
   isOpen: boolean;
@@ -36,6 +37,7 @@ type FormData = {
 const AddScheduleModal = ({ isOpen, closeModal }: Props) => {
   const { addSchedule } = useContext(ScheduleContextDispatch);
   const { currentDate } = useContext(DateContextState);
+  const { labels } = useContext(LabelContextState);
   const {
     register,
     handleSubmit,
@@ -123,7 +125,9 @@ const AddScheduleModal = ({ isOpen, closeModal }: Props) => {
             {...register('calenderType')}
             className="mt-2 px-3 py-2 text-lg w-full rounded-md border border-slate-400"
           >
-            <option value="normal">일반</option>
+            {labels.map((label) => {
+              return <option value={label.name}>{label.name}</option>;
+            })}
           </select>
 
           <label className="mt-2 block text-md font-medium text-slate-700">

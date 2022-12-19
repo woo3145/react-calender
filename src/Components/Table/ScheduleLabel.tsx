@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { LabelContextState } from '../../Context/labelContext';
 import { ISchedule } from '../../Context/scheduleContext';
 import UpdateScheduleModal from '../Modals/UpdateScheduleModal';
 
@@ -10,6 +11,9 @@ interface Props {
 
 const ScheduleLabel = ({ isEmptyPlace, width, schedule }: Props) => {
   const [modalIsOpen, setIsOpen] = useState(false);
+  const { labels } = useContext(LabelContextState);
+
+  const label = labels.filter((label) => label.name === schedule.label)[0];
 
   const openModal = () => {
     setIsOpen(true);
@@ -19,7 +23,18 @@ const ScheduleLabel = ({ isEmptyPlace, width, schedule }: Props) => {
   };
 
   if (isEmptyPlace) {
-    return <div className={`w-full h-6`}></div>;
+    return (
+      <>
+        <div onClick={openModal} className={`w-full h-6 cursor-pointer`}></div>
+        {modalIsOpen && (
+          <UpdateScheduleModal
+            schedule={schedule}
+            isOpen={modalIsOpen}
+            closeModal={closeModal}
+          />
+        )}
+      </>
+    );
   }
   return (
     <>
@@ -28,9 +43,23 @@ const ScheduleLabel = ({ isEmptyPlace, width, schedule }: Props) => {
         style={{
           width: width,
         }}
-        className={`w-full border bg-red-200 rounded-md text-xs px-2 h-6 flex items-center cursor-pointer`}
+        className={`w-full border relative rounded-md  text-xs px-2 h-6 flex items-center cursor-pointer`}
       >
-        {schedule.title}
+        <div
+          style={{
+            backgroundColor: label ? label.color : '#8492a6',
+            opacity: 0.2,
+          }}
+          className="absolute top-0 left-0 w-full h-full"
+        ></div>
+        <p
+          style={{
+            opacity: 1,
+            color: label ? label.color : '#8492a6',
+          }}
+        >
+          {schedule.title}
+        </p>
       </div>
 
       {modalIsOpen && (

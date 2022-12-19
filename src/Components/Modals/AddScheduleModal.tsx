@@ -125,8 +125,12 @@ const AddScheduleModal = ({ isOpen, closeModal }: Props) => {
             {...register('calenderType')}
             className="mt-2 px-3 py-2 text-lg w-full rounded-md border border-slate-400"
           >
-            {labels.map((label) => {
-              return <option value={label.name}>{label.name}</option>;
+            {labels.map((label, idx) => {
+              return (
+                <option key={idx} value={label.name}>
+                  {label.name}
+                </option>
+              );
             })}
           </select>
 

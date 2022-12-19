@@ -25,7 +25,10 @@ const ScheduleLabel = ({ isEmptyPlace, width, schedule }: Props) => {
   if (isEmptyPlace) {
     return (
       <>
-        <div onClick={openModal} className={`w-full h-6 cursor-pointer`}></div>
+        <div
+          onClick={openModal}
+          className={`w-full h-6 cursor-pointer mb-1`}
+        ></div>
         {modalIsOpen && (
           <UpdateScheduleModal
             schedule={schedule}
@@ -43,7 +46,7 @@ const ScheduleLabel = ({ isEmptyPlace, width, schedule }: Props) => {
         style={{
           width: width,
         }}
-        className={`w-full border relative rounded-md  text-xs px-2 h-6 flex items-center cursor-pointer`}
+        className={`w-full relative rounded-md mb-1 text-xs px-2 h-6 flex items-center cursor-pointer`}
       >
         <div
           style={{

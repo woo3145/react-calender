@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import AddModal from '../Modals/AddScheduleModal';
+import AddScheduleModal from '../Modals/AddScheduleModal';
 
 const AddEventButton = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -19,7 +19,9 @@ cursor-pointer hover:bg-purple-700 duration-200"
       >
         일정 추가
       </div>
-      {modalIsOpen && <AddModal isOpen={modalIsOpen} closeModal={closeModal} />}
+      {modalIsOpen && (
+        <AddScheduleModal isOpen={modalIsOpen} closeModal={closeModal} />
+      )}
     </>
   );
 };

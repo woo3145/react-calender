@@ -63,7 +63,7 @@ const TableItem = ({
   ]);
 
   return (
-    <td className="border py-2">
+    <td className="border pt-2 pb-4">
       <div className="h-24 relative">
         <div
           className={`pr-4 text-right text-lg font-light cursor-pointer hover:underline

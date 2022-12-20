@@ -7,5 +7,15 @@ export const isSameDay = (date1: Date, date2: Date) => {
 };
 
 export const getDateTerm = (startDate: Date, endDate: Date) => {
-  return (endDate.getTime() - startDate.getTime()) / 86400000;
+  const startDateMidnight = new Date(
+    startDate.getFullYear(),
+    startDate.getMonth(),
+    startDate.getDate()
+  );
+  const endDateMidnight = new Date(
+    endDate.getFullYear(),
+    endDate.getMonth(),
+    endDate.getDate()
+  );
+  return (endDateMidnight.getTime() - startDateMidnight.getTime()) / 86400000;
 };

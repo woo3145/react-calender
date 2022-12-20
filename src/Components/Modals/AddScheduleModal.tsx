@@ -1,17 +1,18 @@
-import { ChangeEvent, useContext, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import ReactModal from 'react-modal';
-import { DateContextState } from '../../Context/dateContext';
 import { v4 } from 'uuid';
 import { getDateTerm } from '../../utils/dateUtils';
 import { ScheduleContextDispatch } from '../../Context/scheduleContext';
 import { LabelContextState } from '../../Context/labelContext';
+import { DateRange, DayPicker } from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
+import ko from 'date-fns/locale/ko';
 
 interface Props {
   isOpen: boolean;
   closeModal: () => void;
 }
-
 const customStyles = {
   content: {
     top: '50%',
@@ -30,39 +31,27 @@ const customStyles = {
 type FormData = {
   title: string;
   calenderType: string;
-  startDate: string;
-  endDate: string;
 };
 
 const AddScheduleModal = ({ isOpen, closeModal }: Props) => {
   const { addSchedule } = useContext(ScheduleContextDispatch);
-  const { currentDate } = useContext(DateContextState);
   const { labels } = useContext(LabelContextState);
   const {
     register,
     handleSubmit,
-    setValue,
-    watch,
     formState: { errors },
   } = useForm<FormData>();
 
-  useEffect(() => {
-    const curDate = `${currentDate.getFullYear()}-${
-      currentDate.getMonth() + 1
-    }-${currentDate.getDate()}`;
-    setValue('startDate', curDate);
-    setValue('endDate', curDate);
-
-    // eslint-disable-next-line
-  }, []);
+  const defaultSelected: DateRange = {
+    from: new Date(),
+    to: new Date(),
+  };
+  const [range, setRange] = useState<DateRange | undefined>(defaultSelected);
 
   const onSubmit = handleSubmit((data) => {
-    const startDate = new Date(data.startDate);
-    const endDate = new Date(data.endDate);
-
-    if (endDate.getTime() < startDate.getTime()) {
-      return;
-    }
+    if (!range?.from) return;
+    const startDate = range.from;
+    const endDate = range.to ? range.to : range.from;
     addSchedule({
       id: v4(),
       label: data.calenderType,
@@ -75,28 +64,6 @@ const AddScheduleModal = ({ isOpen, closeModal }: Props) => {
     closeModal();
   });
 
-  const onChangeStartDate = (e: ChangeEvent<HTMLInputElement>) => {
-    const { endDate: _endDate } = watch();
-    const startDate = new Date(e.target.value);
-    const endDate = new Date(_endDate);
-    // 만약 시작일을 마지막일 이후 날짜를 선택하면 둘다 변경
-    if (endDate.getTime() < startDate.getTime()) {
-      setValue('endDate', e.target.value);
-    }
-    setValue('startDate', e.target.value);
-  };
-
-  const onChangeEndDate = (e: ChangeEvent<HTMLInputElement>) => {
-    const { startDate: _startDate } = watch();
-    const startDate = new Date(_startDate);
-    const endDate = new Date(e.target.value);
-    // 만약 마지막일을 시작일보다 이전 날짜를 선택하면 둘다 변경
-    if (endDate.getTime() < startDate.getTime()) {
-      setValue('startDate', e.target.value);
-    }
-    setValue('endDate', e.target.value);
-  };
-
   return (
     <ReactModal
       isOpen={isOpen}
@@ -106,55 +73,50 @@ const AddScheduleModal = ({ isOpen, closeModal }: Props) => {
       <div className="w-screen max-w-screen-sm">
         <h2 className="text-xl font-semibold">일정 추가</h2>
         <form className="mt-4" onSubmit={onSubmit}>
-          <label className="block text-md font-medium text-slate-700">
-            제목
-          </label>
-          <input
-            {...register('title', { required: true })}
-            placeholder="title"
-            className="mt-2 px-3 py-2 text-lg w-full rounded-md border border-slate-400"
-          />
-          {errors.title?.type === 'required' && (
-            <p className="mt-1 text-sm text-red-500">제목을 입력해주세요.</p>
-          )}
+          <div className="flex ">
+            <div className="w-full pt-8">
+              <label className="block text-md font-medium text-slate-700">
+                제목
+              </label>
+              <input
+                {...register('title', { required: true })}
+                placeholder="title"
+                className="mt-2 px-3 py-2 text-lg w-full rounded-md border border-slate-400"
+              />
+              {errors.title?.type === 'required' && (
+                <p className="mt-1 text-sm text-red-500">
+                  제목을 입력해주세요.
+                </p>
+              )}
 
-          <label className="mt-2 block text-md font-medium text-slate-700">
-            타입
-          </label>
-          <select
-            {...register('calenderType')}
-            className="mt-2 px-3 py-2 text-lg w-full rounded-md border border-slate-400"
-          >
-            {labels.map((label, idx) => {
-              return (
-                <option key={idx} value={label.name}>
-                  {label.name}
-                </option>
-              );
-            })}
-          </select>
+              <label className="mt-2 block text-md font-medium text-slate-700">
+                타입
+              </label>
+              <select
+                {...register('calenderType')}
+                className="mt-2 px-3 py-2 text-lg w-full rounded-md border border-slate-400"
+              >
+                {labels.map((label, idx) => {
+                  return (
+                    <option key={idx} value={label.name}>
+                      {label.name}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            <div>
+              <DayPicker
+                mode="range"
+                defaultMonth={range?.from}
+                selected={range}
+                onSelect={setRange}
+                locale={ko}
+              />
+            </div>
+          </div>
 
-          <label className="mt-2 block text-md font-medium text-slate-700">
-            시작일
-          </label>
-          <input
-            {...register('startDate')}
-            onChange={onChangeStartDate}
-            type="date"
-            className="mt-2"
-          />
-
-          <label className="mt-2 block text-md font-medium text-slate-700">
-            마지막일
-          </label>
-          <input
-            {...register('endDate')}
-            onChange={onChangeEndDate}
-            type="date"
-            className="mt-2"
-          />
-
-          <div className="text-right">
+          <div className="text-right pt-10">
             <button
               className="px-8 py-2 bg-purple-600 text-white rounded-md 
           cursor-pointer hover:bg-purple-700 duration-200 mr-4"

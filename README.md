@@ -25,5 +25,4 @@
 ###### 그외
 
 - [x] 일정 태그 객체화 (color, name 등등) 태그수정시 schedule 객체에 모두 적용해야 되서 schedule객체에 name만 저장
-- [ ] 태그 filter
-- [ ] 태그 추가, 삭제, 수정
+- [x] 태그 filter

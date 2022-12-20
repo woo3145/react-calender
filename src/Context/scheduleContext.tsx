@@ -66,7 +66,6 @@ export const ScheduleProvider = ({ children }: { children: ReactNode }) => {
       const filteredEvents = schedules.filter(
         (schedule) => schedule.id !== scheduleId
       );
-      console.log(filteredEvents, '삭제');
       setSchedules(filteredEvents);
       saveSchedules(filteredEvents);
     },

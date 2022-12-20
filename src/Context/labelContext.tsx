@@ -7,7 +7,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { getLabels, saveLabels } from '../utils/localStorage';
+import { getLabels, initialLabels, saveLabels } from '../utils/localStorage';
 
 export interface ILabel {
   id: string;
@@ -42,7 +42,12 @@ export const LabelProvider = ({ children }: { children: ReactNode }) => {
   const [isAllView, setIsAllView] = useState(false);
 
   useEffect(() => {
-    setLabels(getLabels());
+    try {
+      setLabels(getLabels());
+    } catch (e) {
+      // 로컬스토리지의 값에 오류가 있을 시 초기값으로 초기화
+      setLabels(initialLabels());
+    }
   }, []);
 
   useEffect(() => {

@@ -13,7 +13,6 @@ const ScheduleLabelList = ({ viewedSchedules, containerDate }: Props) => {
   const [containerWidth, setContainerWidth] = useState(0); // 달력 한칸의 길이
   useEffect(() => {
     if (!ref.current) return;
-    console.log(ref.current.offsetWidth);
     setContainerWidth(ref.current.offsetWidth);
   }, []);
 
@@ -39,8 +38,6 @@ const ScheduleLabelList = ({ viewedSchedules, containerDate }: Props) => {
         // 캘린더의 각칸을 term과 곱하여 일정스티커의 실제 길이를 구해줌 +(border에서 손실이 생기기 때문에 보강)
         const labelWidth =
           containerWidth * (term + 1) + (schedule.term === 0 ? 0 : term * 3);
-
-        console.log(labelWidth);
 
         return (
           <ScheduleLabel

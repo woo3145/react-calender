@@ -22,6 +22,9 @@ const ScheduleLabel = ({ isEmptyPlace, width, schedule }: Props) => {
     setIsOpen(false);
   };
 
+  // 라벨 필터
+  if (!label.checked) return null;
+
   if (isEmptyPlace) {
     return (
       <>

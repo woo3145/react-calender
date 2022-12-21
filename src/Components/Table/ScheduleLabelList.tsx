@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ISchedule } from '../../Context/scheduleContext';
 import { getDateTerm, isSameDay } from '../../utils/dateUtils';
 import ScheduleLabel from './ScheduleLabel';
+import ScheduleMoreLabelList from './ScheduleMoreLabelList';
 
 interface Props {
   viewedSchedules: ISchedule[];
@@ -20,6 +21,7 @@ const ScheduleLabelList = ({ viewedSchedules, containerDate }: Props) => {
   return (
     <div className="absolute left-0 right-0" ref={ref}>
       {viewedSchedules.map((schedule, idx) => {
+        if (2 <= idx) return null;
         // 이벤트의 시작일과 해당 컨테이너의 값이 일치하는지 확인
         const isScheduleStartDay = isSameDay(schedule.startDate, containerDate);
         // 일정 당일 x && 해당칸이 일요일이 아닌데 이벤트가 존재하면 빈공간임
@@ -47,6 +49,14 @@ const ScheduleLabelList = ({ viewedSchedules, containerDate }: Props) => {
           />
         );
       })}
+      {2 < viewedSchedules.length ? (
+        <>
+          <ScheduleMoreLabelList
+            schedules={viewedSchedules}
+            containerDate={containerDate}
+          />
+        </>
+      ) : null}
     </div>
   );
 };

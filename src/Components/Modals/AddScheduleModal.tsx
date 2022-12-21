@@ -25,7 +25,7 @@ const customStyles = {
   },
   overlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    zIndex: 10,
+    zIndex: 40,
   },
 };
 type FormData = {

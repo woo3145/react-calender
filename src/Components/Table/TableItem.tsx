@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { ReferenceDate } from '../../Context/dateContext';
 import { ISchedule } from '../../Context/scheduleContext';
 import { useSchedule } from '../../hooks/useSchedule';
+import { isSameDay } from '../../utils/dateUtils';
 import ScheduleLabelList from './ScheduleLabelList';
 
 interface Props {
@@ -52,7 +53,7 @@ const TableItem = ({
           return true;
         })
         .sort((a, b) => {
-          return b.term - a.term;
+          return a.startDate.getTime() - b.startDate.getTime();
         })
     );
   }, [

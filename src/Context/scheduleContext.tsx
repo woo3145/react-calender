@@ -43,13 +43,14 @@ export const ScheduleProvider = ({ children }: { children: ReactNode }) => {
   const [schedules, setSchedules] = useState<ISchedule[]>([]);
 
   useEffect(() => {
-    setSchedules(
-      getSchedules().map((e) => {
+    const localStorageItems = getSchedules()
+      .map((e) => {
         e.startDate = new Date(e.startDate);
         e.endDate = new Date(e.endDate);
         return e;
       })
-    );
+      .sort((a, b) => a.startDate.getDate() - b.startDate.getDate());
+    setSchedules(localStorageItems);
   }, []);
 
   const addSchedule = useCallback(

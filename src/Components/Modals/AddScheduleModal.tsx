@@ -42,11 +42,7 @@ const AddScheduleModal = ({ isOpen, closeModal }: Props) => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const defaultSelected: DateRange = {
-    from: new Date(),
-    to: new Date(),
-  };
-  const [range, setRange] = useState<DateRange | undefined>(defaultSelected);
+  const [range, setRange] = useState<DateRange | undefined>();
 
   const onSubmit = handleSubmit((data) => {
     if (!range?.from) return;

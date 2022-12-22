@@ -1,67 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { ReferenceDate } from '../../Context/dateContext';
-import { ISchedule } from '../../Context/scheduleContext';
-import { useSchedule } from '../../hooks/useSchedule';
-import { isSameDay } from '../../utils/dateUtils';
 import ScheduleLabelList from './ScheduleLabelList';
 
 interface Props {
   referenceDate: ReferenceDate;
   date: number;
   lastDateOfReferenceMonth: number;
+  containerIdx: number;
 }
 
 const TableItem = ({
   referenceDate,
   date,
   lastDateOfReferenceMonth,
+  containerIdx,
 }: Props) => {
   const valid = 0 < date && date <= lastDateOfReferenceMonth;
 
   const { year, month } = referenceDate;
-  const containerDate = new Date(year, month, date, 0);
-  const containerDate_year = containerDate.getFullYear();
-  const containerDate_month = containerDate.getMonth();
-  const containerDate_date = containerDate.getDate();
-
-  const { filteredSchedules } = useSchedule();
-  const [viewedSchedules, setViewedSchedules] = useState<ISchedule[]>([]);
-  // 이벤트 가져오기
-  useEffect(() => {
-    setViewedSchedules(
-      filteredSchedules
-        .filter((e) => {
-          if (
-            containerDate_year < e.startDate.getFullYear() ||
-            e.endDate.getFullYear() < containerDate_year
-          ) {
-            return false;
-          }
-          if (
-            containerDate_month < e.startDate.getMonth() ||
-            e.endDate.getMonth() < containerDate_month
-          ) {
-            return false;
-          }
-          if (
-            containerDate_date < e.startDate.getDate() ||
-            e.endDate.getDate() < containerDate_date
-          ) {
-            return false;
-          }
-
-          return true;
-        })
-        .sort((a, b) => {
-          return a.startDate.getTime() - b.startDate.getTime();
-        })
-    );
-  }, [
-    filteredSchedules,
-    containerDate_year,
-    containerDate_month,
-    containerDate_date,
-  ]);
+  const containerDate = useMemo(() => {
+    return new Date(year, month, date);
+  }, [date, month, year]);
 
   return (
     <td className="border pt-2 pb-4">
@@ -73,8 +32,8 @@ const TableItem = ({
           {containerDate.getDate()}
         </div>
         <ScheduleLabelList
-          viewedSchedules={viewedSchedules}
           containerDate={containerDate}
+          containerIdx={containerIdx}
         />
       </div>
     </td>

@@ -2,7 +2,6 @@ import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import ReactModal from 'react-modal';
 import { v4 } from 'uuid';
-import { getDateTerm } from '../../utils/dateUtils';
 import { ScheduleContextDispatch } from '../../Context/scheduleContext';
 import { LabelContextState } from '../../Context/labelContext';
 import { DateRange, DayPicker } from 'react-day-picker';
@@ -54,7 +53,6 @@ const AddScheduleModal = ({ isOpen, closeModal }: Props) => {
       title: data.title,
       startDate,
       endDate,
-      term: getDateTerm(startDate, endDate),
     });
 
     closeModal();

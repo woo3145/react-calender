@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { ISchedule } from '../../Context/scheduleContext';
 import { useSchedule } from '../../hooks/useSchedule';
-import { getDateTerm, isSameDay } from '../../utils/dateUtils';
 import ScheduleLabel from './ScheduleLabel';
 import ScheduleMoreLabelList from './ScheduleMoreLabelList';
 
@@ -12,7 +11,7 @@ interface Props {
 
 const ScheduleLabelList = ({ containerDate, containerIdx }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [containerWidth, setContainerWidth] = useState(0); // 달력 한칸의 길이
+  // const [containerWidth, setContainerWidth] = useState(0); // 달력 한칸의 길이
 
   const { getContainerSchedule } = useSchedule();
   const [schedules, setSchedules] = useState<ISchedule[]>([]);
@@ -21,12 +20,12 @@ const ScheduleLabelList = ({ containerDate, containerIdx }: Props) => {
     setSchedules(getContainerSchedule(containerDate));
   }, [containerDate, getContainerSchedule]);
 
-  useEffect(() => {
-    if (!ref.current) return;
-    setContainerWidth(ref.current.offsetWidth);
-  }, []);
+  // useEffect(() => {
+  //   if (!ref.current) return;
+  //   setContainerWidth(ref.current.offsetWidth);
+  // }, []);
 
-  const maxExpandableContainer = 6 - containerDate.getDay(); // 현재 칸에서 옆으로 최대로 늘릴 수 있는 칸
+  // const maxExpandableContainer = 6 - containerDate.getDay(); // 현재 칸에서 옆으로 최대로 늘릴 수 있는 칸
   return (
     <div className="absolute left-0 right-0" ref={ref}>
       {schedules.map((schedule, idx) => {

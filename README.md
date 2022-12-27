@@ -36,5 +36,4 @@ LocalStorage => ScheduleContext의 state로 관리 => 일정리스트 컴포넌�
 
 - [x] 일정 태그 객체화 (color, name 등등) 태그수정시 schedule 객체에 모두 적용해야 되서 schedule객체에 name만 저장
 - [x] 태그 filter
-- [ ] 태그 추가, 삭제, 수정
-- [ ] 샘플 일정 데이터 추가
+- [x] 샘플 일정 데이터 추가

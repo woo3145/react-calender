@@ -1,10 +1,16 @@
 import { ILabel } from '../Context/labelContext';
 import { ISchedule } from '../Context/scheduleContext';
-import { v4 } from 'uuid';
+import { getDefaultLabels, getDefaultSchedules } from './mockData';
+
+export const initialSchedules = (): ISchedule[] => {
+  const defaultSchedules = getDefaultSchedules();
+  saveSchedules(defaultSchedules);
+  return defaultSchedules;
+};
 
 export const getSchedules = () => {
   const schedules = localStorage.getItem('schedules');
-  if (!schedules) return [];
+  if (!schedules) return initialSchedules();
   return JSON.parse(schedules) as ISchedule[];
 };
 
@@ -13,38 +19,9 @@ export const saveSchedules = (schedules: ISchedule[]) => {
 };
 
 export const initialLabels = (): ILabel[] => {
-  return [
-    {
-      id: v4(),
-      name: '개인',
-      color: '#ef4444',
-      checked: true,
-    },
-    {
-      id: v4(),
-      name: '업무',
-      color: '#c084fc',
-      checked: true,
-    },
-    {
-      id: v4(),
-      name: '가족',
-      color: '#fbbf24',
-      checked: true,
-    },
-    {
-      id: v4(),
-      name: '휴일',
-      color: '#84cc16',
-      checked: true,
-    },
-    {
-      id: v4(),
-      name: '그외',
-      color: '#22d3ee',
-      checked: true,
-    },
-  ];
+  const defaultLabels = getDefaultLabels();
+  saveLabels(defaultLabels);
+  return defaultLabels;
 };
 
 export const getLabels = () => {

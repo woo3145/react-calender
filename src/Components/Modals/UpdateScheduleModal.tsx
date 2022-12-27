@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import ReactModal from 'react-modal';
-import { getDateTerm } from '../../utils/dateUtils';
 import {
   ISchedule,
   ScheduleContextDispatch,
@@ -77,7 +76,6 @@ const UpdateScheduleModal = ({ isOpen, closeModal, schedule }: Props) => {
       title: data.title,
       startDate,
       endDate,
-      term: getDateTerm(startDate, endDate),
     });
 
     closeModal();

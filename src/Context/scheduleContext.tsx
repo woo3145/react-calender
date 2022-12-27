@@ -7,7 +7,11 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { getSchedules, saveSchedules } from '../utils/localStorage';
+import {
+  getSchedules,
+  initialSchedules,
+  saveSchedules,
+} from '../utils/localStorage';
 
 export interface ISchedule {
   id: string;
@@ -15,7 +19,6 @@ export interface ISchedule {
   label: string;
   startDate: Date;
   endDate: Date;
-  term: number;
 }
 
 interface ContextState {
@@ -43,14 +46,18 @@ export const ScheduleProvider = ({ children }: { children: ReactNode }) => {
   const [schedules, setSchedules] = useState<ISchedule[]>([]);
 
   useEffect(() => {
-    const localStorageItems = getSchedules()
-      .map((e) => {
-        e.startDate = new Date(e.startDate);
-        e.endDate = new Date(e.endDate);
-        return e;
-      })
-      .sort((a, b) => a.startDate.getDate() - b.startDate.getDate());
-    setSchedules(localStorageItems);
+    try {
+      const localStorageItems = getSchedules()
+        .map((e) => {
+          e.startDate = new Date(e.startDate);
+          e.endDate = new Date(e.endDate);
+          return e;
+        })
+        .sort((a, b) => a.startDate.getDate() - b.startDate.getDate());
+      setSchedules(localStorageItems);
+    } catch (e) {
+      setSchedules(initialSchedules());
+    }
   }, []);
 
   const addSchedule = useCallback(

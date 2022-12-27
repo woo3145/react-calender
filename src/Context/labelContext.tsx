@@ -19,11 +19,13 @@ export interface ILabel {
 interface ContextState {
   labels: ILabel[];
   isAllView: boolean;
+  filtering: string[];
 }
 
 export const LabelContextState = createContext<ContextState>({
   labels: [],
   isAllView: true,
+  filtering: [],
 });
 
 interface ContextDispatch {
@@ -40,6 +42,7 @@ export const LabelContextDispatch = createContext<ContextDispatch>({
 export const LabelProvider = ({ children }: { children: ReactNode }) => {
   const [labels, setLabels] = useState<ILabel[]>([]);
   const [isAllView, setIsAllView] = useState(false);
+  const [filtering, setFiltering] = useState<string[]>([]);
 
   useEffect(() => {
     try {
@@ -53,11 +56,14 @@ export const LabelProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (labels.length === 0) return;
     let allChecked = true;
+    const filteringLabels: string[] = [];
     labels.forEach((label) => {
       if (!label.checked) {
         allChecked = false;
+        filteringLabels.push(label.name);
       }
     });
+    setFiltering(filteringLabels);
     setIsAllView(allChecked);
   }, [labels]);
 
@@ -89,8 +95,8 @@ export const LabelProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const labelContextStateValue = useMemo(() => {
-    return { labels, isAllView };
-  }, [labels, isAllView]);
+    return { labels, isAllView, filtering };
+  }, [labels, isAllView, filtering]);
 
   const labelContextDispatchValue = useMemo(() => {
     return { setLabels, toggleAllView, toggleLabel };

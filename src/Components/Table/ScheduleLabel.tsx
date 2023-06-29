@@ -50,6 +50,7 @@ const ScheduleLabel = ({ isEmptyPlace, width, schedule }: Props) => {
             opacity: 1,
             color: label ? label.color : '#8492a6',
           }}
+          className="truncate"
         >
           {schedule.title}
         </p>

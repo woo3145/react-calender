@@ -8,8 +8,8 @@ const Filter = () => {
   const { labels, isAllView } = useContext(LabelContextState);
   const { toggleAllView, toggleLabel } = useContext(LabelContextDispatch);
   return (
-    <div className="pt-8">
-      <p className="pb-2 opacity-50">Filter</p>
+    <div className="flex flex-wrap gap-4 pt-8 lg:block">
+      <p className="hidden pb-2 opacity-50 lg:block">Filter</p>
       <label className="flex items-center cursor-pointer">
         <input
           checked={isAllView}
@@ -21,7 +21,7 @@ const Filter = () => {
       </label>
       {labels.map((label, idx) => {
         return (
-          <label key={idx} className="flex items-center cursor-pointer mt-2">
+          <label key={idx} className="flex items-center cursor-pointer lg:mt-2">
             <input
               checked={label.checked}
               onChange={() => toggleLabel(label.name)}

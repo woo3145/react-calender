@@ -93,28 +93,28 @@ const UpdateScheduleModal = ({ isOpen, closeModal, schedule }: Props) => {
       onRequestClose={closeModal}
       style={customStyles}
     >
-      <div className="w-screen max-w-screen-sm">
+      <div className="w-screen max-w-screen-sm px-2 lg:px-0">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold">일정 업데이트</h2>
           <div className="flex">
             <div
               onClick={onDelete}
-              className="flex items-center py-2 px-4 rounded-md text-red-500 hover:bg-gray-200 cursor-pointer duration-200"
+              className="flex items-center px-4 py-2 text-red-500 duration-200 rounded-md cursor-pointer hover:bg-gray-200"
             >
               <p>삭제</p>
             </div>
           </div>
         </div>
         <form className="mt-4" onSubmit={onSubmit}>
-          <div className="flex ">
-            <div className="w-full pt-8">
-              <label className="block text-md font-medium text-slate-700">
+          <div className="lg:flex">
+            <div className="w-full lg:pt-8">
+              <label className="block font-medium text-md text-slate-700">
                 제목
               </label>
               <input
                 {...register('title', { required: true })}
                 placeholder="title"
-                className="mt-2 px-3 py-2 text-lg w-full rounded-md border border-slate-400"
+                className="w-full px-3 py-2 mt-2 text-lg border rounded-md border-slate-400"
               />
               {errors.title?.type === 'required' && (
                 <p className="mt-1 text-sm text-red-500">
@@ -122,12 +122,12 @@ const UpdateScheduleModal = ({ isOpen, closeModal, schedule }: Props) => {
                 </p>
               )}
 
-              <label className="mt-2 block text-md font-medium text-slate-700">
+              <label className="block mt-2 font-medium text-md text-slate-700">
                 타입
               </label>
               <select
                 {...register('calenderType')}
-                className="mt-2 px-3 py-2 text-lg w-full rounded-md border border-slate-400"
+                className="w-full px-3 py-2 mt-2 text-lg border rounded-md border-slate-400"
               >
                 {labels.map((label, idx) => {
                   return (
@@ -138,7 +138,7 @@ const UpdateScheduleModal = ({ isOpen, closeModal, schedule }: Props) => {
                 })}
               </select>
             </div>
-            <div>
+            <div className="flex justify-center mt-4 lg:mt-0">
               <DayPicker
                 mode="range"
                 defaultMonth={range?.from}
@@ -149,17 +149,13 @@ const UpdateScheduleModal = ({ isOpen, closeModal, schedule }: Props) => {
             </div>
           </div>
 
-          <div className="text-right pt-10">
-            <button
-              className="px-8 py-2 bg-purple-600 text-white rounded-md 
-          cursor-pointer hover:bg-purple-700 duration-200 mr-4"
-            >
+          <div className="pt-10 text-right">
+            <button className="px-8 py-2 mr-4 text-white duration-200 bg-purple-600 rounded-md cursor-pointer hover:bg-purple-700">
               추가
             </button>
             <button
               onClick={closeModal}
-              className="px-8 py-2 border border-neutral-400 text-neutral-600 rounded-md 
-          cursor-pointer hover:border-neutral-600 duration-200"
+              className="px-8 py-2 duration-200 border rounded-md cursor-pointer border-neutral-400 text-neutral-600 hover:border-neutral-600"
             >
               취소
             </button>

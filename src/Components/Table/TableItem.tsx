@@ -26,10 +26,10 @@ const TableItem = ({
   const isCurrentDate = isSameDay(new Date(), containerDate);
 
   return (
-    <td className="border pt-2 pb-4">
-      <div className="h-24 relative">
+    <td className="pt-2 pb-4 border">
+      <div className="relative h-24">
         <div
-          className={`pr-4 text-right text-lg font-light cursor-pointer hover:underline
+          className={`pr-2 lg:pr-4 text-right text-sm lg:text-lg font-light cursor-pointer hover:underline
         ${valid ? 'text-neutral-600' : 'opacity-30'}`}
         >
           <span

@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import { ReferenceDate } from '../../Context/dateContext';
+import { useContext, useMemo } from 'react';
+import { DateContextState, ReferenceDate } from '../../Context/dateContext';
 import { isSameDay } from '../../utils/dateUtils';
 import ScheduleLabelList from './ScheduleLabelList';
 
@@ -16,14 +16,14 @@ const TableItem = ({
   lastDateOfReferenceMonth,
   containerIdx,
 }: Props) => {
+  const { currentDate } = useContext(DateContextState);
   const valid = 0 < date && date <= lastDateOfReferenceMonth;
-
   const { year, month } = referenceDate;
   const containerDate = useMemo(() => {
     return new Date(year, month, date);
   }, [date, month, year]);
 
-  const isCurrentDate = isSameDay(new Date(), containerDate);
+  const isCurrentDate = isSameDay(currentDate, containerDate);
 
   return (
     <td className="pt-2 pb-4 border">

@@ -34,17 +34,25 @@ interface ContextDispatch {
   addSchedule: (schedule: ISchedule) => void;
   updateSchedule: (schedule: ISchedule) => void;
   removeSchedule: (scheduleId: string) => void;
+  init: () => void;
 }
 export const ScheduleContextDispatch = createContext<ContextDispatch>({
   setSchedules: null,
   addSchedule: (schedule: ISchedule) => {},
   updateSchedule: (schedule: ISchedule) => {},
   removeSchedule: (scheduleId: string) => {},
+  init: () => {},
 });
 
 export const ScheduleProvider = ({ children }: { children: ReactNode }) => {
   const [schedules, setSchedules] = useState<ISchedule[]>([]);
 
+  // 오늘 날짜 기준 디폴트값으로 스케줄 초기화
+  const init = () => {
+    setSchedules(initialSchedules());
+  };
+
+  // 로컬 스토리지에서 스케줄 불러오기
   useEffect(() => {
     try {
       const localStorageItems = getSchedules()
@@ -56,10 +64,11 @@ export const ScheduleProvider = ({ children }: { children: ReactNode }) => {
         .sort((a, b) => a.startDate.getDate() - b.startDate.getDate());
       setSchedules(localStorageItems);
     } catch (e) {
-      setSchedules(initialSchedules());
+      init();
     }
   }, []);
 
+  // 스케줄 추가
   const addSchedule = useCallback(
     (schedule: ISchedule) => {
       const newSchedules = [...schedules, schedule];
@@ -69,6 +78,7 @@ export const ScheduleProvider = ({ children }: { children: ReactNode }) => {
     [schedules]
   );
 
+  // 스케줄 제거
   const removeSchedule = useCallback(
     (scheduleId: string) => {
       const filteredEvents = schedules.filter(
@@ -80,6 +90,7 @@ export const ScheduleProvider = ({ children }: { children: ReactNode }) => {
     [schedules]
   );
 
+  // 스케줄 업데이트
   const updateSchedule = useCallback(
     (schedule: ISchedule) => {
       const updatedSchedule = schedules.map((prev) => {
@@ -99,7 +110,7 @@ export const ScheduleProvider = ({ children }: { children: ReactNode }) => {
   }, [schedules]);
 
   const scheduleContextDispatchValue = useMemo(() => {
-    return { setSchedules, addSchedule, updateSchedule, removeSchedule };
+    return { setSchedules, addSchedule, updateSchedule, removeSchedule, init };
   }, [addSchedule, updateSchedule, removeSchedule]);
 
   return (

@@ -23,7 +23,7 @@ const Table = () => {
   const weekIter = Array.from({ length: 7 }, (v, i) => i + 1);
 
   return (
-    <table className="w-full table-fixed border-collapse border">
+    <table className="w-full border border-collapse table-fixed">
       <TableHead />
       <tbody>
         {lineCountIter.map((week) => {
@@ -35,7 +35,7 @@ const Table = () => {
 
                   return (
                     <TableItem
-                      key={week * 7 + idx}
+                      key={date}
                       lastDateOfReferenceMonth={lastDateOfReferenceMonth_date}
                       referenceDate={referenceDate}
                       date={date}

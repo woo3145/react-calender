@@ -37,7 +37,9 @@ export const DateContextDispatch = createContext<ContextDispatch>({
 });
 
 export const DateProvider = ({ children }: { children: ReactNode }) => {
+  // 오늘 날짜
   const currentDate = useMemo(() => new Date(), []);
+  // 달력이 참조중인 년도/월 (default: 오늘 날짜의 년도/월)
   const [referenceDate, setReferenceDate] = useState<ReferenceDate>({
     year: currentDate.getFullYear(),
     month: currentDate.getMonth(),

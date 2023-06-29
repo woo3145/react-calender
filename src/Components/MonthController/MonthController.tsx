@@ -5,10 +5,12 @@ import {
   DateContextDispatch,
   DateContextState,
 } from '../../Context/dateContext';
+import { ScheduleContextDispatch } from '../../Context/scheduleContext';
 
 const MonthController = () => {
   const { referenceDate } = useContext(DateContextState);
   const { setReferenceDate } = useContext(DateContextDispatch);
+  const { init } = useContext(ScheduleContextDispatch);
 
   const { year, month } = referenceDate;
 
@@ -29,18 +31,23 @@ const MonthController = () => {
   };
 
   return (
-    <div className="flex text-xl items-center pt-6 pb-4 px-4 text-neutral-600 border-l">
-      <IoChevronBackOutline
-        onClick={prevMonth}
-        className="mr-2 w-6 h-6 cursor-pointer"
-      />
-      <IoChevronForwardOutline
-        onClick={nextMonth}
-        className="mr-2 w-6 h-6 cursor-pointer"
-      />
-      <h2 className="ml-4">
-        {Month[month]} {year}
-      </h2>
+    <div className="flex items-center justify-between px-4 pt-6 pb-4 border-l">
+      <div className="flex items-center text-xl text-neutral-600">
+        <IoChevronBackOutline
+          onClick={prevMonth}
+          className="w-6 h-6 mr-2 cursor-pointer"
+        />
+        <IoChevronForwardOutline
+          onClick={nextMonth}
+          className="w-6 h-6 mr-2 cursor-pointer"
+        />
+        <h2 className="ml-4">
+          {Month[month]} {year}
+        </h2>
+      </div>
+      <button className="text-red-500" onClick={init}>
+        초기화
+      </button>
     </div>
   );
 };

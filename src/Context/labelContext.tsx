@@ -40,12 +40,16 @@ export const LabelContextDispatch = createContext<ContextDispatch>({
 });
 
 export const LabelProvider = ({ children }: { children: ReactNode }) => {
+  // 모든 라벨(필터) 목록
   const [labels, setLabels] = useState<ILabel[]>([]);
+  // 모두 체크 여부
   const [isAllView, setIsAllView] = useState(false);
+  // 필터링 중인 라벨들
   const [filtering, setFiltering] = useState<string[]>([]);
 
   useEffect(() => {
     try {
+      // localStorage에서 라벨 목록 가져오기
       setLabels(getLabels());
     } catch (e) {
       // 로컬스토리지의 값에 오류가 있을 시 초기값으로 초기화
@@ -53,6 +57,7 @@ export const LabelProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
+  // 라벨이 변경되면 확인 후 isAllView와 filtering 업데이트
   useEffect(() => {
     if (labels.length === 0) return;
     let allChecked = true;
